@@ -1,9 +1,14 @@
 import React from 'react';
 import { Mail } from 'lucide-react';
+import {motion} from 'framer-motion';
 
 export default function Newsletter() {
   return (
-    <section className="bg-green-600 py-16">
+    <motion.section className="bg-green-600 py-16"
+      initial={{ opacity: 0, x: 200 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.9 }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <Mail className="h-12 w-12 text-white mx-auto mb-4" />
@@ -30,6 +35,6 @@ export default function Newsletter() {
           </form>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

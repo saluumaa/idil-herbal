@@ -4,8 +4,6 @@ import Header from './components/layout/Header.jsx';
 import Footer from './components/layout/Footer.jsx';
 import Home from './pages/Home';
 import About from './pages/About';
-import Products from './pages/Products';
-// import Services from './pages/Services';
 import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
@@ -19,6 +17,9 @@ import FAQ from './components/FAQ.jsx';
 import Shipping from './components/Shipping.jsx';
 import Return from './components/Returns.jsx';
 import AddProduct from './components/addProduct/AddProduct.jsx';
+import ProductGrid from './components/products/ProductGrid.jsx';
+import SuccessPage from './components/success/SuccessPage.jsx';
+import ProductUpdateForm from './components/products/ProductUpdateForm.jsx';
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/products" element={<Products />} />
+            <Route path="/products" element={<ProductGrid />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             {/* <Route path="/services" element={<Services />} /> */}
             <Route path="/blog" element={<Blog />} />
@@ -43,6 +44,8 @@ function App() {
             <Route path='/shipping' element={<Shipping /> } />
             <Route path="/returns" element={<Return />} />
             <Route path="/add-product" element={<AddProduct />} />
+            <Route path="/success" element={<SuccessPage />} />
+            <Route path="/edit-product" element={<ProductUpdateForm />} />
           </Routes>
         </main>
         <Footer />

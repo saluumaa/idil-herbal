@@ -1,5 +1,6 @@
 import React from 'react';
 import { Star } from 'lucide-react';
+import {motion} from 'framer-motion';
 
 const testimonials = [
   {
@@ -24,7 +25,11 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-20 bg-gray-50">
+    <motion.section className="py-20 bg-gray-50"
+      initial={{ opacity: 0, y: 150 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-16">
           Real Results from Our Customers
@@ -53,6 +58,6 @@ export default function Testimonials() {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

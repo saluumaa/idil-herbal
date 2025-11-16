@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema(
@@ -20,12 +21,13 @@ const orderSchema = new mongoose.Schema(
       enum: ["zaad", "edahab", "paypal", "flutterwave", "cash-on-delivery"],
       default: "cash-on-delivery",
     },
+  
     paymentStatus: {
       type: String,
       enum: ["pending", "paid"],
       default: "pending",
     },
-    paymentReference: { type: String }, // Zaad/E-Dahab transaction ID
+    paymentReference: { type: String }, 
     status: {
       type: String,
       enum: ["pending", "paid", "shipped", "completed"],
@@ -33,8 +35,15 @@ const orderSchema = new mongoose.Schema(
     },
     deliveryStatus: {
       type: String,
-      enum: ['pending', 'shipped', 'completed'],
-      default: 'pending',
+      enum: ["pending", "shipped", "completed"],
+      default: "pending",
+    },
+    shippingInfo: { 
+      name: { type: String, required: true },
+      email: { type: String, required: true },
+      phone: { type: String, required: true },
+      address: { type: String, required: true },
+      city: { type: String, required: true },
     },
   },
   { timestamps: true }

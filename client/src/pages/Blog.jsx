@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link} from "react-router-dom";
 import apiRequest from "../utils/apiRequest";
 import { AuthContext } from "../context/AuthContext";
-import { ArrowBigLeftIcon } from "lucide-react";
+import { motion} from "framer-motion";
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
@@ -22,24 +22,21 @@ export default function Blog() {
   }, []);
 
   return (
-    <div className="bg-gray-100 mb-14">
+    <motion.div className=" mb-14 min-h-full"
+      initial={{ opacity: 0, y: -100 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
 
      {/* heroSection */}
-     <div className="relative max-w-7xl mx-auto bg-green-600 py-20 mb-5">
-          <div className="absolute inset-0">
-            <img
-              src="./herbalPhoto.jpeg"
-              alt="Contact background"
-              className="w-full h-full object-cover opacity-20"
-            />
-          </div>
-          <div className="relative  px-4 sm:px-6 lg:px-8 text-center">
-          <div className='flex gap-4 justify-center items-center cursor-pointer'>
-              <Link to='/' className= "text-xl font-bold text-white py-2">Home</Link>
-              <span className="text-xl font-bold text-green-300 py-2 rounded-md  mx-2">
-                <ArrowBigLeftIcon />
+     <div className="relative max-w-7xl mx-auto  py-12 mb-5">
+          <div className="relative px-4 sm:px-6 lg:px-8 -mt-10">
+          <div className='flex gap-4 justify-start items-center cursor-pointer'>
+              <Link to='/' className= "text-3xl font-bold  underline ">Home</Link>
+              <span className="text-xl font-bold text-green-300  rounded-md ">
+               /
               </span>
-              <Link to='/blog' className= "text-xl font-bold text-white py-2  rounded-md ">Blog</Link>
+              <Link to='/blog' className= "text-3xl font-bold  rounded-md ">Blog</Link>
           </div>
           
         </div>
@@ -72,6 +69,6 @@ export default function Blog() {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

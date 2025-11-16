@@ -1,5 +1,6 @@
-import React from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import {motion} from 'framer-motion';
+import { useState } from 'react';
 
 const faqs = [
   {
@@ -21,10 +22,14 @@ const faqs = [
 ];
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = React.useState(null);
+  const [openIndex, setOpenIndex] = useState(null);
 
   return (
-    <section className="py-20 bg-white">
+    <motion.section className="py-20 bg-white"
+      initial={{ opacity: 0, y: 150 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.9 }}
+    >
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
           Frequently Asked Questions
@@ -53,6 +58,6 @@ export default function FAQ() {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

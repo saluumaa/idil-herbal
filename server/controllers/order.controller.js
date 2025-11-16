@@ -1,21 +1,66 @@
 const mongoose = require('mongoose');
 const Order = require('../models/Order');
 
+// const createOrder = async (req, res) => {
+//   try {
+//     const { products, totalAmount, paymentMethod } = req.body;
+
+//     // Validate payload
+//     if (!products || !Array.isArray(products) || !totalAmount || !paymentMethod) {
+//       return res.status(400).json({ error: 'Invalid order data' });
+//     }
+
+//     const order = new Order({
+//       user: req.user.id,
+//       products,
+//       totalAmount,
+//       paymentMethod, 
+      
+//     });
+
+//     await order.save();
+
+//     res.status(201).json({ message: 'Order placed successfully', order });
+//     console.log('Order placed successfully:', order);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//     console.log('Error creating order:', err.message);
+//   }
+// };
+
+
 const createOrder = async (req, res) => {
   try {
-    const { products, totalAmount, paymentMethod } = req.body;
+    const { 
+      products, 
+      totalAmount, 
+      paymentMethod, 
+      shippingInfo // Added shipping information
+    } = req.body;
 
-    // Validate payload
-    if (!products || !Array.isArray(products) || !totalAmount || !paymentMethod) {
-      return res.status(400).json({ error: 'Invalid order data' });
+    // Validate required fields
+    if (!products || !Array.isArray(products) || products.length === 0) {
+      return res.status(400).json({ error: 'No products in order' });
+    }
+    if (!totalAmount || totalAmount <= 0) {
+      return res.status(400).json({ error: 'Invalid total amount' });
+    }
+    if (!paymentMethod) {
+      return res.status(400).json({ error: 'Payment method is required' });
+    }
+    if (!shippingInfo || !shippingInfo.name || !shippingInfo.email || !shippingInfo.phone || !shippingInfo.address || !shippingInfo.city) {
+      return res.status(400).json({ error: 'Complete shipping information is required' });
     }
 
+    // Create new order
     const order = new Order({
-      user: req.user.id,
+      user: req.user.id, 
       products,
       totalAmount,
-      paymentMethod, 
-      
+      paymentMethod,
+      shippingInfo, 
+      paymentStatus: paymentMethod === 'cash-on-delivery' ? 'pending' : 'paid', 
+      status: 'pending', 
     });
 
     await order.save();
@@ -23,8 +68,8 @@ const createOrder = async (req, res) => {
     res.status(201).json({ message: 'Order placed successfully', order });
     console.log('Order placed successfully:', order);
   } catch (err) {
+    console.error('Error creating order:', err.message);
     res.status(500).json({ error: err.message });
-    console.log('Error creating order:', err.message);
   }
 };
 
@@ -39,7 +84,9 @@ const getUserOrders = async (req, res) => {
       // If admin, fetch all orders and populate user and product details
       orders = await Order.find({})
         .populate('user', 'name email') // Populate username and email of the user
-        .populate('products.product', 'name price'); // Populate name of the product
+        .populate('products.product', 'name price') // Populate name of the product
+        .populate('shippingInfo')
+        .sort({ createdAt: -1 });
     } else {
       // If not admin, fetch only the orders of the logged-in user
       const userId = req.user.id;
@@ -98,4 +145,51 @@ const deleteOrder = async (req, res) => {
   }
 }
 
-module.exports = { createOrder, getUserOrders, updateOrderStatus, deleteOrder, updateDeliveryStatus };
+const getMonthlySales = async (req, res) => {
+  try {
+    const salesData = await Order.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(new Date().getFullYear(), 0, 1), // Current year
+            $lt: new Date(new Date().getFullYear() + 1, 0, 1)
+          }
+        }
+      },
+      {
+        $group: {
+          _id: { $month: "$createdAt" },
+          total: { $sum: "$totalAmount" },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          month: "$_id",
+          total: 1,
+          count: 1,
+          _id: 0
+        }
+      },
+      {
+        $sort: { month: 1 }
+      }
+    ]);
+
+    // Map month numbers to names
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+    
+    const formattedData = salesData.map(item => ({
+      month: monthNames[item.month - 1],
+      total: item.total,
+      count: item.count
+    }));
+
+    res.json(formattedData);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
+module.exports = { createOrder, getUserOrders, updateOrderStatus, deleteOrder, updateDeliveryStatus, getMonthlySales };

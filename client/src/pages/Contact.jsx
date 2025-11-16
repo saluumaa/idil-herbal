@@ -1,5 +1,6 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Send,  ArrowBigLeftIcon } from 'lucide-react';
+import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 export default function Contact() {
@@ -17,24 +18,36 @@ export default function Contact() {
             />
           </div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className='flex justify-center items-center -mt-12 cursor-pointer'>
+          <div className='flex justify-start items-center -mt-16 cursor-pointer'>
               <Link to='/' className= "text-xl font-bold text-white py-2">Home</Link>
               <span className="text-xl font-bold text-green-300 py-2 rounded-md  mx-2">
-                <ArrowBigLeftIcon />
+                /
               </span>
-              <Link to='/contact' className= "text-xl font-bold text-white py-2  rounded-md ">Contact</Link>
+              <p className= "text-xl font-bold text-white py-2  rounded-md ">Contact</p>
           </div>
 
-            <h1 className="text-4xl font-bold text-white mb-4 mt-4">Get in Touch</h1>
-            <p className="text-xl text-green-100 max-w-2xl mx-auto">
+            <motion.h1 className="text-4xl font-bold text-white mb-4 mt-4"
+              initial={{ opacity: 0, y: -90 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+            >Get in Touch</motion.h1>
+            <motion.p className="text-xl text-green-100 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 90 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.7 }}
+            >
               Have questions about our products or services? We're here to help you achieve your best hair naturally.
-            </p>
+            </motion.p>
           </div>
          
         </div>
         
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 mt-4">
+          <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 mt-4"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
             <div className="text-center">
               <Mail className="h-8 w-8 text-green-600 mx-auto mb-2" />
               <p className="text-gray-600">support@herbalcare.com</p>
@@ -47,11 +60,16 @@ export default function Contact() {
               <MapPin className="h-8 w-8 text-green-600 mx-auto mb-2" />
               <p className="text-gray-600">Borama, Awdal, Somaliland</p>
             </div>
-          </div>
+          </motion.div>
 
         <form className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -90 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
               <input
                 type="text"
@@ -59,8 +77,12 @@ export default function Contact() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 placeholder="Your name"
               />
-            </div>
-            <div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 90 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+            >
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
               <input
                 type="email"
@@ -68,9 +90,13 @@ export default function Contact() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 placeholder="your@email.com"
               />
-            </div>
+            </motion.div>
           </div>
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
             <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
             <input
               type="text"
@@ -78,8 +104,12 @@ export default function Contact() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
               placeholder="How can we help?"
             />
-          </div>
-          <div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
             <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
             <textarea
               id="message"
@@ -87,7 +117,7 @@ export default function Contact() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
               placeholder="Your message..."
             ></textarea>
-          </div>
+          </motion.div>
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2"
